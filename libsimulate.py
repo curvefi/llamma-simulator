@@ -2,7 +2,6 @@
 
 import json
 import random
-import platform
 from multiprocessing import Pool, cpu_count
 from datetime import datetime
 from libmodel import LendingAMM
@@ -191,14 +190,14 @@ class Simulator:
         return sum(sorted(result)[::-1][:n_top_samples]) / n_top_samples
 
 
-n_cores = cpu_count()
-if platform.python_implementation() == 'PyPy':
-    n_cores = n_cores // 2
-pool = Pool(n_cores)
+def init_multicore():
+    global pool
+    pool = Pool(cpu_count())
 
 
 if __name__ == '__main__':
     simulator = Simulator('data/crvusdt-1m.json.gz', 5e-4, add_reverse=False)
+    init_multicore()
     print(simulator.get_loss_rate(
-        100, 0.3, 0.006, min_loan_duration=0.3, max_loan_duration=0.3, Texp=600,
-        samples=50000, n_top_samples=20))
+        100, 0.5, 0.006, min_loan_duration=0.3, max_loan_duration=0.3, Texp=600,
+        samples=4000, n_top_samples=4000))

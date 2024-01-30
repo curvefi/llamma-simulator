@@ -112,6 +112,17 @@ class LendingAMM:
             assert self.bands_x[i] == 0
             self.bands_y[i] += y
 
+    def deposit_nrange(self, amount, p, dn):
+        assert p <= self.p_oracle
+        n1 = self.get_band_n(p)
+        n2 = n1 + dn - 1
+        y = amount / dn
+        self.min_band = n1
+        self.max_band = n2
+        for i in range(n1, n2 + 1):
+            assert self.bands_x[i] == 0
+            self.bands_y[i] += y
+
     def get_y0(self, n=None):
         A = self.A
         if n is None:

@@ -8,13 +8,14 @@ from libmodel import LendingAMM
 
 
 pool = None
+EXT_FEE = 5e-4
 
 
 class Simulator:
     min_loan_duration = 1  # day
     max_loan_duration = 30  # days
     samples = 400
-    other = {'dynamic_fee_multiplier': 0, 'use_po_fee': 1, 'po_fee_delay': 1}
+    other = {'dynamic_fee_multiplier': 0, 'use_po_fee': 1, 'po_fee_delay': 2}
 
     def __init__(self, filename, ext_fee, add_reverse=False,
                  log=False, verbose=False):
@@ -54,11 +55,13 @@ class Simulator:
     def single_run(self, A, range_size, fee, Texp, position, size, p_shift=None, **kw):
         """
         position: 0..1
-        size: 0..1
+        size: fraction of all price data length for size
         """
-        i0 = int(position * len(self.price_data) / 2)
+        i0 = int(position * len(self.price_data))
         i1 = max(i0 - 24*2*60, 0)
-        data = self.price_data[i1:int((position + size) * len(self.price_data) / 2)]
+
+        # Data for EMAs
+        data = self.price_data[i1:int((position + size) * len(self.price_data))]
         emas = []
         ema = data[0][1]
         ema_t = data[0][0]
@@ -69,7 +72,8 @@ class Simulator:
             emas.append(ema)
         emas = emas[i0 - i1:]
 
-        data = self.price_data[int(position * len(self.price_data) / 2):int((position + size) * len(self.price_data) / 2)]
+        # Data for prices
+        data = self.price_data[int(position * len(self.price_data)):int((position + size) * len(self.price_data))]
         if p_shift is None:
             p0 = data[0][1]
         else:
@@ -80,7 +84,7 @@ class Simulator:
         amm = LendingAMM(p_base, A, fee, **kw)
 
         # Fill ticks with liquidity
-        amm.deposit_range(initial_y0, p0 * (1 - range_size), p0)  # 1 ETH
+        amm.deposit_nrange(initial_y0, p0, range_size)  # 1 ETH
         initial_all_x = amm.get_all_x()
 
         losses = []
@@ -181,8 +185,8 @@ class Simulator:
             max_loan_duration = self.max_loan_duration
         if not min_loan_duration:
             min_loan_duration = self.min_loan_duration
-        dt = 86400 * 1000 / (self.price_data[-1][0] - self.price_data[0][0])
-        inputs = [(A, range_size, fee, Texp, random.random(), (max_loan_duration-min_loan_duration) * dt * random.random()**2 +
+        dt = 86400 * 1000 / (self.price_data[-1][0] - self.price_data[0][0])  # Which fraction of all data is 1 day
+        inputs = [(A, range_size, fee, Texp, random.random(), (max_loan_duration-min_loan_duration) * dt * random.random() +
                    min_loan_duration*dt, 0, other) for _ in range(samples)]
         result = pool.map(self.f, inputs)
         if not n_top_samples:
@@ -195,9 +199,14 @@ def init_multicore():
     pool = Pool(cpu_count())
 
 
+# def scan_param(filename, **kw):
+#     simulator = Simulator(filename, EXT_FEE, add_reverse=False)
+#     init_multicore()
+
+
 if __name__ == '__main__':
-    simulator = Simulator('data/crvusdt-1m.json.gz', 5e-4, add_reverse=False)
+    simulator = Simulator('data/ethusdt-1m.json.gz', 5e-4, add_reverse=False)
     init_multicore()
     print(simulator.get_loss_rate(
-        100, 0.5, 0.006, min_loan_duration=0.3, max_loan_duration=0.3, Texp=600,
-        samples=4000, n_top_samples=4000))
+        100, 4, 0.006, min_loan_duration=0.15, max_loan_duration=0.15, Texp=600,
+        samples=200000, n_top_samples=20))

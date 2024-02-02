@@ -205,7 +205,7 @@ def init_multicore():
 
 
 if __name__ == '__main__':
-    simulator = Simulator('data/ethusdt-1m.json.gz', 5e-4, add_reverse=False)
+    simulator = Simulator('data/ethusdt-1m.json.gz', 5e-4, add_reverse=True)
     init_multicore()
     print(simulator.get_loss_rate(
         100, 4, 0.006, min_loan_duration=0.15, max_loan_duration=0.15, Texp=600,

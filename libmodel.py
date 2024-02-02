@@ -113,8 +113,9 @@ class LendingAMM:
             self.bands_y[i] += y
 
     def deposit_nrange(self, amount, p, dn):
+        n_top = self.get_band_n(self.p_oracle) + 1
         assert p <= self.p_oracle
-        n1 = self.get_band_n(p)
+        n1 = max(self.get_band_n(p), n_top)
         n2 = n1 + dn - 1
         y = amount / dn
         self.min_band = n1

@@ -3,6 +3,7 @@
 import json
 import random
 from multiprocessing import Pool, cpu_count
+from collections.abc import Iterable
 from datetime import datetime
 from libmodel import LendingAMM
 
@@ -199,9 +200,54 @@ def init_multicore():
     pool = Pool(cpu_count())
 
 
-# def scan_param(filename, **kw):
-#     simulator = Simulator(filename, EXT_FEE, add_reverse=False)
-#     init_multicore()
+def scan_param(filename, **kw):
+    simulator = Simulator(filename, EXT_FEE, add_reverse=True)
+    init_multicore()
+    args = {'samples': 50000, 'n_top_samples': 20, 'min_loan_duration': 0.15, 'max_loan_duration': 0.15}
+    args.update(kw)
+    iterable_args = [k for k in kw if isinstance(kw[k], Iterable)]
+    assert len(iterable_args) == 1, "Not one iterable item"
+    scanned_name = iterable_args[0]
+    scanned_args = kw[scanned_name]
+    del args[scanned_name]
+
+    losses = []
+    discounts = []
+
+    for v in scanned_args:
+        args[scanned_name] = v
+        loss = simulator.get_loss_rate(**args)
+
+        cl = 1 - (1 - loss) * (((args['A'] - 1) / args['A']) ** args['range_size']) ** 0.5
+
+        print(f'{scanned_name}={v}\t->\tLoss={loss},\tLiq_discount={cl}')
+
+        losses.append(loss)
+        discounts.append(cl)
+
+    return [(scanned_args, losses), (scanned_args, discounts)]
+
+
+def plot_losses(param_name, losses):
+    try:
+        import pylab
+        import matplotlib
+        try:
+            matplotlib.use('Qt5Agg')
+        except Exception:
+            matplotlib.use('TkAgg')
+        from matplotlib import pyplot as plt
+
+    except ImportError:
+        raise
+    
+    for (x, y) in losses:
+        pylab.plot(x, y)
+
+    pylab.grid()
+    pylab.ylabel('Loss')
+    pylab.xlabel(param_name)
+    pylab.show()
 
 
 if __name__ == '__main__':
@@ -209,4 +255,4 @@ if __name__ == '__main__':
     init_multicore()
     print(simulator.get_loss_rate(
         100, 4, 0.006, min_loan_duration=0.15, max_loan_duration=0.15, Texp=600,
-        samples=50000, n_top_samples=20))
+        samples=300000, n_top_samples=20))

@@ -207,7 +207,7 @@ class LendingAMM:
                 self.active_band += bstep
                 continue
 
-            fee = self.dynamic_fee(n)
+            fee = self.dynamic_fee(n, new=False)
 
             if bstep == 1:
                 # reduce y, increase x, go up

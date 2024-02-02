@@ -13,8 +13,8 @@ EXT_FEE = 5e-4
 
 class Simulator:
     min_loan_duration = 1  # day
-    max_loan_duration = 30  # days
-    samples = 400
+    max_loan_duration = 1  # days
+    SAMPLES = 400
     other = {'dynamic_fee_multiplier': 0, 'use_po_fee': 1, 'po_fee_delay': 2}
 
     def __init__(self, filename, ext_fee, add_reverse=False,
@@ -209,4 +209,4 @@ if __name__ == '__main__':
     init_multicore()
     print(simulator.get_loss_rate(
         100, 4, 0.006, min_loan_duration=0.15, max_loan_duration=0.15, Texp=600,
-        samples=200000, n_top_samples=20))
+        samples=50000, n_top_samples=20))

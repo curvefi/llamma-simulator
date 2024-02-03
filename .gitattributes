@@ -1,3 +1,4 @@
 data/crvusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/ethusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/eurusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+data/bnbusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text

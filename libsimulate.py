@@ -9,6 +9,7 @@ from libmodel import LendingAMM
 
 
 pool = None
+price_data = None
 EXT_FEE = 5e-4
 
 
@@ -33,6 +34,8 @@ class Simulator:
         self.verbose = verbose
 
     def load_prices(self):
+        global price_data
+
         if self.filename.endswith('.gz'):
             import gzip
             with gzip.open(self.filename, "r") as f:
@@ -51,18 +54,18 @@ class Simulator:
         if self.add_reverse:
             t0 = data[-1][0]
             data += [[t0 + (t0 - d[0])] + d[1:] for d in data[::-1]]
-        self.price_data = data
+        price_data = data
 
     def single_run(self, A, range_size, fee, Texp, position, size, p_shift=None, **kw):
         """
         position: 0..1
         size: fraction of all price data length for size
         """
-        i0 = int(position * len(self.price_data))
+        i0 = int(position * len(price_data))
         i1 = max(i0 - 24*2*60, 0)
 
         # Data for EMAs
-        data = self.price_data[i1:int((position + size) * len(self.price_data))]
+        data = price_data[i1:int((position + size) * len(price_data))]
         emas = []
         ema = data[0][1]
         ema_t = data[0][0]
@@ -74,7 +77,7 @@ class Simulator:
         emas = emas[i0 - i1:]
 
         # Data for prices
-        data = self.price_data[int(position * len(self.price_data)):int((position + size) * len(self.price_data))]
+        data = price_data[int(position * len(price_data)):int((position + size) * len(price_data))]
         if p_shift is None:
             p0 = data[0][1]
         else:
@@ -186,10 +189,10 @@ class Simulator:
             max_loan_duration = self.max_loan_duration
         if not min_loan_duration:
             min_loan_duration = self.min_loan_duration
-        dt = 86400 * 1000 / (self.price_data[-1][0] - self.price_data[0][0])  # Which fraction of all data is 1 day
+        dt = 86400 * 1000 / (price_data[-1][0] - price_data[0][0])  # Which fraction of all data is 1 day
         inputs = [(A, range_size, fee, Texp, random.random(), (max_loan_duration-min_loan_duration) * dt * random.random() +
                    min_loan_duration*dt, 0, other) for _ in range(samples)]
-        result = pool.map(self.f, inputs, 2000)
+        result = pool.map(self.f, inputs, 1000)
         if not n_top_samples:
             n_top_samples = samples // 20
         return sum(sorted(result)[::-1][:n_top_samples]) / n_top_samples
@@ -255,4 +258,4 @@ if __name__ == '__main__':
     init_multicore()
     print(simulator.get_loss_rate(
         100, 4, 0.006, min_loan_duration=0.15, max_loan_duration=0.15, Texp=600,
-        samples=500000, n_top_samples=50))
+        samples=200000, n_top_samples=20))

@@ -189,7 +189,7 @@ class Simulator:
         dt = 86400 * 1000 / (self.price_data[-1][0] - self.price_data[0][0])  # Which fraction of all data is 1 day
         inputs = [(A, range_size, fee, Texp, random.random(), (max_loan_duration-min_loan_duration) * dt * random.random() +
                    min_loan_duration*dt, 0, other) for _ in range(samples)]
-        result = pool.map(self.f, inputs)
+        result = pool.map(self.f, inputs, 2000)
         if not n_top_samples:
             n_top_samples = samples // 20
         return sum(sorted(result)[::-1][:n_top_samples]) / n_top_samples
@@ -203,7 +203,7 @@ def init_multicore():
 def scan_param(filename, **kw):
     simulator = Simulator(filename, EXT_FEE, add_reverse=True)
     init_multicore()
-    args = {'samples': 50000, 'n_top_samples': 20, 'min_loan_duration': 0.15, 'max_loan_duration': 0.15}
+    args = {'samples': 200000, 'n_top_samples': 40, 'min_loan_duration': 0.15, 'max_loan_duration': 0.15}
     args.update(kw)
     iterable_args = [k for k in kw if isinstance(kw[k], Iterable)]
     assert len(iterable_args) == 1, "Not one iterable item"
@@ -255,4 +255,4 @@ if __name__ == '__main__':
     init_multicore()
     print(simulator.get_loss_rate(
         100, 4, 0.006, min_loan_duration=0.15, max_loan_duration=0.15, Texp=600,
-        samples=300000, n_top_samples=20))
+        samples=500000, n_top_samples=50))

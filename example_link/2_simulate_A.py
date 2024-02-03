@@ -7,7 +7,7 @@ if __name__ == '__main__':
         'data/linkusdt-1m.json.gz',
         A=[int(a) for a in logspace(log10(10), log10(1000), 20)],
         range_size=4,
-        fee=0.006,
+        fee=0.009,
         Texp=600
     )
 

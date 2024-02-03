@@ -30,6 +30,7 @@ python3 1_simulate_fee.py
 This script calculates losses depending on the AMM fee for a 4-band position with A=50 (you can change that).
 
 This gives this graph:
+
 ![CRV/USD fee optimization](/example_crv/1_fee.png)
 
 The graph suggests that optimal fee is at the minimum of the graph and is equal to 0.9%.
@@ -40,6 +41,7 @@ Amplification (A) depends on asset volatility. Let's put the optimal fee we have
 `2_simulate_A.py` and run it.
 
 We obtain two graphs - losses and discount (sum of losses and the value of liquidity if price slowly goes down) for N = 4 bands:
+
 ![CRV/USD A optimization](/example_crv/2_A.png)
 
 Value of A for the minimum of orange graph is the A we need to set for the market:
@@ -60,6 +62,7 @@ Therefore, maximum possible leverage for CRV is `1 / (1 - 0.83) = 5.9`.
 # Checking losses for different band numbers
 
 User can adjust position losses by adjusting numbers of bands. Let's calculate losses in SL using recent prices for CRV depending on N using script `4_simulate_avg_loss_brief.py`:
+
 ![CRV/USD SL loss calculation](/example_crv/4_avg_loss.png)
 
 Graph calculates loss user would experience when borrowing maximum possible amount and waiting for 1 day (on average). For example, on this graph, at N=50, loss is `0.07%` per day. However price could go up or down, so one could assume that when in actual soft liquidation, the loss could be `0.14%` per day on average.

@@ -220,8 +220,14 @@ def scan_param(filename, **kw):
     for v in scanned_args:
         args[scanned_name] = v
         loss = simulator.get_loss_rate(**args)
+        A = args['A']
+        range_size = args['range_size']
 
-        cl = 1 - (1 - loss) * (((args['A'] - 1) / args['A']) ** args['range_size']) ** 0.5
+        # Simplified formula
+        # bands_coefficient = (((A - 1) / A) ** range_size) ** 0.5
+        # More precise
+        bands_coefficient = sum(((A - 1) / A) ** (k + 0.5) for k in range(range_size)) / range_size
+        cl = 1 - (1 - loss) * bands_coefficient
 
         print(f'{scanned_name}={v}\t->\tLoss={loss},\tLiq_discount={cl}')
 

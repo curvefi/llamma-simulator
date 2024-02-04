@@ -10,7 +10,7 @@ pair = 'ETHUSDT'
 URI_TEMPLATE = 'https://api.binance.com/api/v1/klines?symbol=%s&interval=1m&limit=500&startTime={start}&endTime={end}' % pair
 data = []
 
-begin = datetime.datetime(year=2020, month=1, day=1)
+begin = datetime.datetime(year=2021, month=11, day=1)
 start = datetime.datetime.utcnow()
 dt = (start - begin)
 for i in range(-dt.days * 5, 0):

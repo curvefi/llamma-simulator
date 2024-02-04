@@ -8,7 +8,8 @@ if __name__ == '__main__':
         A=[int(a) for a in logspace(log10(30), log10(500), 20)],
         range_size=4,
         fee=0.006,
-        Texp=600
+        Texp=600,
+        min_loan_duration=0.05, max_loan_duration=0.05
     )
 
     plot_losses('A', results)

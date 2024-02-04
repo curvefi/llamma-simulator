@@ -7,7 +7,7 @@ if __name__ == '__main__':
         'data/crvusdt-1m-brief.json.gz',
         A=50,
         range_size=[int(x) for x in linspace(4, 50, 10)],
-        fee=0.009,
+        fee=0.006,
         Texp=600,
         samples=20000, n_top_samples=20000,
         min_loan_duration=1, max_loan_duration=1

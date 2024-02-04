@@ -245,11 +245,10 @@ def plot_losses(param_name, losses):
             matplotlib.use('Qt5Agg')
         except Exception:
             matplotlib.use('TkAgg')
-        from matplotlib import pyplot as plt
 
     except ImportError:
         raise
-    
+
     for (x, y) in losses:
         pylab.plot(x, y)
 
@@ -263,5 +262,5 @@ if __name__ == '__main__':
     simulator = Simulator('data/ethusdt-1m.json.gz', 5e-4, add_reverse=True)
     init_multicore()
     print(simulator.get_loss_rate(
-        100, 4, 0.006, min_loan_duration=0.15, max_loan_duration=0.15, Texp=600,
+        100, 4, 0.009, min_loan_duration=0.05, max_loan_duration=0.05, Texp=600,
         samples=200000, n_top_samples=20))

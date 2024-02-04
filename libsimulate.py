@@ -206,7 +206,7 @@ def init_multicore():
 def scan_param(filename, **kw):
     simulator = Simulator(filename, EXT_FEE, add_reverse=True)
     init_multicore()
-    args = {'samples': 200000, 'n_top_samples': 40, 'min_loan_duration': 0.15, 'max_loan_duration': 0.15}
+    args = {'samples': 500000, 'n_top_samples': 50, 'min_loan_duration': 0.15, 'max_loan_duration': 0.15}
     args.update(kw)
     iterable_args = [k for k in kw if isinstance(kw[k], Iterable)]
     assert len(iterable_args) == 1, "Not one iterable item"
@@ -262,5 +262,5 @@ if __name__ == '__main__':
     simulator = Simulator('data/ethusdt-1m.json.gz', 5e-4, add_reverse=True)
     init_multicore()
     print(simulator.get_loss_rate(
-        100, 4, 0.009, min_loan_duration=0.05, max_loan_duration=0.05, Texp=600,
-        samples=200000, n_top_samples=20))
+        100, 4, 0.005, min_loan_duration=0.05, max_loan_duration=0.05, Texp=600,
+        samples=500000, n_top_samples=50))

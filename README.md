@@ -33,7 +33,7 @@ This gives this graph:
 
 ![CRV/USD fee optimization](/example_crv/1_fee.png)
 
-The graph suggests that optimal fee is at the minimum of the graph and is equal to 0.9%.
+The graph suggests that optimal fee is at the minimum of the graph and is equal to 0.6%.
 
 # Finding optimal A
 
@@ -47,7 +47,7 @@ We obtain two graphs - losses and discount (sum of losses and the value of liqui
 Value of A for the minimum of orange graph is the A we need to set for the market:
 `A = 50`.
 
-Let's take the value of the blue graph at `A = 50`: it is 0.11. It is the loss we MAY have in the worst case with N=4 which the position will lose if volatility is really bad.
+Let's take the value of the blue graph at `A = 50`: it is 0.11 (when rounded up). It is the loss we MAY have in the worst case with N=4 which the position will lose if volatility is really bad.
 
 This means, we set `liquidation_discount = 0.11`.
 
@@ -65,4 +65,4 @@ User can adjust position losses by adjusting numbers of bands. Let's calculate l
 
 ![CRV/USD SL loss calculation](/example_crv/4_avg_loss.png)
 
-Graph calculates loss user would experience when borrowing maximum possible amount and waiting for 1 day (on average). For example, on this graph, at N=50, loss is `0.07%` per day. However price could go up or down, so one could assume that when in actual soft liquidation, the loss could be `0.14%` per day on average.
+Graph calculates loss user would experience when borrowing maximum possible amount and waiting for 1 day (on average). For example, on this graph, at N=50, loss is `0.075%` per day.

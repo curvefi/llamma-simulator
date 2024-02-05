@@ -5,3 +5,4 @@ data/bnbusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/arbusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/linkusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/crvusdt-1m-brief.json.gz filter=lfs diff=lfs merge=lfs -text
+data/trxusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text

@@ -7,9 +7,10 @@ if __name__ == '__main__':
         'data/ethusdt-1m.json.gz',
         A=[int(a) for a in logspace(log10(30), log10(500), 20)],
         range_size=4,
-        fee=0.005,
+        fee=0.002,
         Texp=600,
-        min_loan_duration=0.05, max_loan_duration=0.05
+        add_reverse=True,
+        min_loan_duration=1/24/2, max_loan_duration=1/24/2
     )
 
     plot_losses('A', results)

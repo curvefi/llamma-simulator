@@ -171,7 +171,6 @@ class LendingAMM:
         """
         Not the method to be present in real smart contract, for simulations only
         """
-
         if self.bands_x[self.active_band] == 0 and self.bands_y[self.active_band] == 0:
             if price > self.p_up(self.active_band):
                 bstep = 1
@@ -192,8 +191,6 @@ class LendingAMM:
         dx = 0
         dy = 0
 
-        original_price = price
-
         while True:
             n = self.active_band
             y0 = self.get_y0()
@@ -204,7 +201,6 @@ class LendingAMM:
             # (f + x)(g + y) = const = p_oracle * A**2 * y0**2 = I
             Inv = (f + x) * (g + y)
             # p = (f + x) / (g + y) => p * (g + y)**2 = I or (f + x)**2 / p = I
-            price = original_price
 
             if x == 0 and y == 0:
                 if price >= self.p_down(n) and price <= self.p_up(n):
@@ -213,18 +209,8 @@ class LendingAMM:
                 continue
 
             fee = self.dynamic_fee(n, new=False)
-            p_c_d = self.p_down(n)
-            p_c_u = self.p_up(n)
-            if self.p_oracle < p_c_d:
-                fee = max((p_c_d - self.p_oracle) / (4 * p_c_d), fee)
-            if self.p_oracle > p_c_u:
-                fee = max((self.p_oracle - p_c_u) / (4 * self.p_oracle), fee)
 
-            if bstep == 1:  # up
-                price = price * (1 - fee)
-                if price < p_c_d:
-                    break
-
+            if bstep == 1:
                 # reduce y, increase x, go up
                 y_dest = (Inv / price)**0.5 - g
                 x_old = self.bands_x[n]
@@ -245,11 +231,7 @@ class LendingAMM:
                     self.bands_x[n] += fee * delta_x
                     self.active_band += 1
 
-            else:  # down
-                price = price * (1 + fee)
-                if price > p_c_u:
-                    break
-
+            else:
                 # increase y, reduce x, go down
                 x_dest = (Inv * price)**0.5 - f
                 y_old = self.bands_y[n]

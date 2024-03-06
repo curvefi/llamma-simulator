@@ -128,8 +128,8 @@ class Simulator:
 
         for (t, o, high, low, c, vol), ema in zip(data, emas):
             amm.set_p_oracle(ema)
-            # max_price = amm.p_up(amm.max_band)
-            # min_price = amm.p_down(amm.min_band)
+            max_price = amm.p_up(amm.max_band)
+            min_price = amm.p_down(amm.min_band)
             high = find_target_price(high * (1 - self.ext_fee), is_up=True, new=True)
             low = find_target_price(low * (1 + self.ext_fee), is_up=False, new=False)
             # high = high * (1 - EXT_FEE - fee)
@@ -142,24 +142,18 @@ class Simulator:
                 except Exception:
                     print(high, low, amm.get_p())
                     raise
-
-            # Not correct for dynamic fees which are too high
-            # if high > max_price:
-            #     # Check that AMM has only stablecoins
-            #     for n in range(amm.min_band, amm.max_band + 1):
-            #         assert amm.bands_y[n] == 0
-            #         assert amm.bands_x[n] > 0
-
+            if high > max_price:
+                # Check that AMM has only stablecoins
+                for n in range(amm.min_band, amm.max_band + 1):
+                    assert amm.bands_y[n] == 0
+                    assert amm.bands_x[n] > 0
             if low < amm.get_p():
                 amm.trade_to_price(low)
-
-            # Not correct for dynamic fees which are too high
-            # if low < min_price:
-            #     # Check that AMM has only collateral
-            #     for n in range(amm.min_band, amm.max_band + 1):
-            #         assert amm.bands_x[n] == 0
-            #         assert amm.bands_y[n] > 0
-
+            if low < min_price:
+                # Check that AMM has only collateral
+                for n in range(amm.min_band, amm.max_band + 1):
+                    assert amm.bands_x[n] == 0
+                    assert amm.bands_y[n] > 0
             d = datetime.fromtimestamp(t//1000).strftime("%Y/%m/%d %H:%M")
             fees.append(amm.dynamic_fee(amm.active_band, new=False))
             if self.log or self.verbose:

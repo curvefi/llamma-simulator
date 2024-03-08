@@ -8,6 +8,8 @@ if __name__ == '__main__':
         A=50,
         range_size=4,
         fee=logspace(log10(0.0005), log10(0.05), 20),
+        min_loan_duration=0.05, max_loan_duration=0.05,
+        add_reverse=True,
         Texp=600
     )
 

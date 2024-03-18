@@ -1,1 +1,0 @@
-https://prices.curve.fi/v1/ohlc/ethereum/0x5a6A4D54456819380173272A5E8E9B9904BdF41B?main_token=0xdAC17F958D2ee523a2206206994597C13D831ec7&reference_token=0x99D8a9C45b2ecA8864373A26D1459e3Dff1e17F3&agg_number=1&agg_units=day&start=1682891331&end=1708724931

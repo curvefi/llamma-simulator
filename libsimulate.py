@@ -32,6 +32,8 @@ class Simulator:
         self.load_prices()
         self.log = log
         self.verbose = verbose
+        self.ema_time = 0
+        self.emas = []
 
     def load_prices(self):
         global price_data
@@ -56,28 +58,29 @@ class Simulator:
             data += [[t0 + (t0 - d[0])] + d[1:] for d in data[::-1]]
         price_data = data
 
+    def update_emas(self, Texp):
+        if self.ema_time != Texp:
+            self.ema_time = Texp
+            self.emas = []
+            ema = price_data[0][1]
+            ema_t = price_data[0][0]
+            for t, _, high, low, _, _ in price_data:
+                ema_mul = 2 ** (- (t - ema_t) / (1000 * Texp))
+                ema = ema * ema_mul + (low + high) / 2 * (1 - ema_mul)
+                ema_t = t
+                self.emas.append(ema)
+
     def single_run(self, A, range_size, fee, Texp, position, size, p_shift=None, **kw):
         """
         position: 0..1
         size: fraction of all price data length for size
         """
-        i0 = int(position * len(price_data))
-        i1 = max(i0 - 24*2*60, 0)
-
-        # Data for EMAs
-        data = price_data[i1:int((position + size) * len(price_data))]
-        emas = []
-        ema = data[0][1]
-        ema_t = data[0][0]
-        for t, _, high, low, _, _ in data:
-            ema_mul = 2 ** (- (t - ema_t) / (1000 * Texp))
-            ema = ema * ema_mul + (low + high) / 2 * (1 - ema_mul)
-            ema_t = t
-            emas.append(ema)
-        emas = emas[i0 - i1:]
+        self.update_emas(Texp)
 
         # Data for prices
-        data = price_data[int(position * len(price_data)):int((position + size) * len(price_data))]
+        pos = (int(position * len(price_data)), int((position + size) * len(price_data)))
+        data = price_data[pos[0]: pos[1]]
+        emas = self.emas[pos[0]: pos[1]]
         if p_shift is None:
             p0 = data[0][1]
         else:

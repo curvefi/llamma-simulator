@@ -7,7 +7,7 @@ if __name__ == '__main__':
         'data/arbusdt-1m.json.gz',
         A=[int(a) for a in logspace(log10(10), log10(1000), 20)],
         range_size=4,
-        fee=0.0045,
+        fee=0.0015,
         Texp=600
     )
 

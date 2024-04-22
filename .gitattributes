@@ -13,3 +13,4 @@ data/mimusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/susdusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/fxncrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/uwuusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+data/fxsusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text

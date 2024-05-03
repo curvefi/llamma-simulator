@@ -17,3 +17,6 @@ data/fxsusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/pufethcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/pufethwsteth-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 data/wstethcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_ezeth_exp/ethcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_ezeth_exp/ezethcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_ezeth_exp/ezetheth-1m.json.gz filter=lfs diff=lfs merge=lfs -text

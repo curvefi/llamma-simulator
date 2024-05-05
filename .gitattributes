@@ -20,3 +20,6 @@ data/wstethcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_ezeth_exp/ethcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_ezeth_exp/ezethcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_ezeth_exp/ezetheth-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_cvxcrv/cvxcrvcrv-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_cvxcrv/cvxcrvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_cvxcrv/crvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text

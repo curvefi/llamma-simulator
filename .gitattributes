@@ -26,3 +26,6 @@ example_cvxcrv/crvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_sdcrv/crvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_sdcrv/sdcrvcrv-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_sdcrv/sdcrvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_ycrv/ycrvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_ycrv/crvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_ycrv/ycrvcrv-1m.json.gz filter=lfs diff=lfs merge=lfs -text

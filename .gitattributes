@@ -29,3 +29,7 @@ example_sdcrv/sdcrvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_ycrv/ycrvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_ycrv/crvcrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_ycrv/ycrvcrv-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_susde/sdaifrax.json.gz filter=lfs diff=lfs merge=lfs -text
+example_susde/susdefrax-ema.json.gz filter=lfs diff=lfs merge=lfs -text
+example_susde/susdefrax.json.gz filter=lfs diff=lfs merge=lfs -text
+example_susde/susdesdai.json.gz filter=lfs diff=lfs merge=lfs -text

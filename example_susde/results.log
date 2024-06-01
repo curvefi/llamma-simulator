@@ -49,3 +49,10 @@ A=1611	->	Loss=0.02434326903600378,	Liq_discount=0.0255539019108858
 A=1795	->	Loss=0.024735780057781466,	Liq_discount=0.025821933667637076
 A=2000	->	Loss=0.024580876672011916,	Liq_discount=0.025555899607522248
 
+Optimal params:
+fee = 0.2%
+A = 200
+liq_discount = 1.4% (conservative)
+loan_discount = 1.9%
+
+Max leverage = 1 / (1.9% + 0.96%) ~= x35

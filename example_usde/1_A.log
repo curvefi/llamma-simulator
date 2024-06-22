@@ -1,4 +1,7 @@
 Simulation for T_half = 600, loan duration = 1/2 day, fee = 0.2%, base coin is USDC
+> A=490	->	Loss=0.005424124316713799,	Liq_discount=0.009476891666721166
+Limit: A=500, min_liq_discount=0.54%, max_leverage = 100
+Conservatively: A=500, liq_discount=1%, loan_discount=1.5%, max_leverage=50
 
 A=10	->	Loss=8.439656153573116e-05,	Liq_discount=0.18443837090784254
 A=11	->	Loss=7.32064011235245e-05,	Liq_discount=0.16891511327785103

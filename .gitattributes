@@ -38,3 +38,4 @@ examples_usde/usdeusdc-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_usde/usdecrvusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_usde/usdeusdc-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_frax/fraxusdc-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_ethfi/ethfiusdt.json.gz filter=lfs diff=lfs merge=lfs -text

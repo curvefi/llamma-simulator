@@ -62,9 +62,7 @@ class LendingAMM:
             if (p_down > self.p_oracle) or (p_up < self.p_oracle):
                 # Fee if not current band
                 fee = max(fee, min([abs(diff1), abs(diff2)]) / (2 * self.p_oracle) * self.dynamic_fee_multiplier)
-            else:
-                # Fee if current band
-                fee = max(fee, abs(self.get_p() - self.p_oracle) / (2 * self.p_oracle) * self.dynamic_fee_multiplier)
+            # No addition if in the band
 
         return fee
 
@@ -173,6 +171,8 @@ class LendingAMM:
         """
 
         if self.bands_x[self.active_band] == 0 and self.bands_y[self.active_band] == 0:
+            # If current band is empty - steps are determined by whether current price is higher or lower than
+            # boundaries
             if price > self.p_up(self.active_band):
                 bstep = 1
             elif price < self.p_down(self.active_band):
@@ -215,10 +215,6 @@ class LendingAMM:
             fee = self.dynamic_fee(n, new=False)
             p_c_d = self.p_down(n)
             p_c_u = self.p_up(n)
-            if self.p_oracle < p_c_d:
-                fee = max((p_c_d - self.p_oracle) / (4 * p_c_d), fee)
-            if self.p_oracle > p_c_u:
-                fee = max((self.p_oracle - p_c_u) / (4 * self.p_oracle), fee)
 
             if bstep == 1:  # up
                 price = price * (1 - fee)

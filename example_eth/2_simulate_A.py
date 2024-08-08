@@ -10,7 +10,9 @@ if __name__ == '__main__':
         fee=0.002,
         Texp=600,
         add_reverse=True,
-        min_loan_duration=1/24/2, max_loan_duration=1/24/2
+        min_loan_duration=1/24/2, max_loan_duration=1/24/2,
+        n_top_samples=1,
+        other = {'dynamic_fee_multiplier': 0.5, 'use_po_fee': 1, 'po_fee_delay': 2}
     )
 
     plot_losses('A', results)

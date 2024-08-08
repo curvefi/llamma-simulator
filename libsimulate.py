@@ -217,7 +217,7 @@ def scan_param(filename, **kw):
     init_multicore()
     args = {'samples': 500000, 'n_top_samples': 50, 'min_loan_duration': 0.15, 'max_loan_duration': 0.15}
     args.update(kw)
-    iterable_args = [k for k in kw if isinstance(kw[k], Iterable)]
+    iterable_args = [k for k in kw if isinstance(kw[k], Iterable) and not isinstance(kw[k], dict)]
     assert len(iterable_args) == 1, "Not one iterable item"
     scanned_name = iterable_args[0]
     scanned_args = kw[scanned_name]

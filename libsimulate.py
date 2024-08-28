@@ -209,7 +209,7 @@ class Simulator:
 
 def init_multicore():
     global pool
-    pool = Pool(cpu_count())
+    pool = Pool(cpu_count() // 2)
 
 
 def scan_param(filename, **kw):

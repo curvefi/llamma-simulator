@@ -2,7 +2,14 @@
 
 ## Installation
 
-To make simulator work, one needs just Python, NumPy and Matplotlib installed
+To make simulator work, one needs just Python, NumPy and Matplotlib installed, or use this to install this in a virtual env:
+
+```
+python -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install numpy matplotlib requests
+```
 
 ## Downloading data
 

@@ -46,3 +46,4 @@ example_op_conservative/A_op.png filter=lfs diff=lfs merge=lfs -text
 example_fxs/A_fxs.png filter=lfs diff=lfs merge=lfs -text
 example_fxs/fxsusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example-rch/rchusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_gold/xauusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text

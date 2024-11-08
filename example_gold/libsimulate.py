@@ -10,8 +10,9 @@ from libmodel import LendingAMM
 
 pool = None
 price_data = None
-EXT_FEE = 1e-3  # XXX
-ORACLE_THRESHOLD = 5e-3
+EXT_FEE = 2.5e-3  # Need to be set to the actual redemption fee for arb traders
+ORACLE_THRESHOLD = 3e-3  # 0.3% on Ethereum/Chainlink
+ORACLE_EMA = False  # Using raw Chainlink with no EMA! Saves gas but losses are higher
 
 
 class Simulator:
@@ -67,11 +68,15 @@ class Simulator:
             ema_t = price_data[0][0]
             oracle = ema
             for t, _, high, low, _, _ in price_data:
-                ema_mul = 2 ** (- (t - ema_t) / (1000 * Texp))
+                if ORACLE_EMA:
+                    ema_mul = 2 ** (- (t - ema_t) / (1000 * Texp))
                 new_oracle = (low + high) / 2
                 if abs(oracle - new_oracle) / new_oracle >= ORACLE_THRESHOLD:
                     oracle = new_oracle
-                ema = ema * ema_mul + oracle * (1 - ema_mul)
+                if ORACLE_EMA:
+                    ema = ema * ema_mul + oracle * (1 - ema_mul)
+                else:
+                    ema = oracle
                 ema_t = t
                 self.emas.append(ema)
 

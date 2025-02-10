@@ -17,3 +17,8 @@ A=34	->	Loss=0.3589487301362719,	Liq_discount=0.3957666641698353
 A=39	->	Loss=0.3786986802560941,	Liq_discount=0.40990303443709397
 A=44	->	Loss=0.38259000779506863,	Liq_discount=0.4101403903700148
 A=49	->	Loss=0.3986303310886183,	Liq_discount=0.4227722130860194
+
+Optimal: A=14
+liquidation_discount: 22.7%
+loan_discount: 26%
+LTV: 1 - (0.33 + 0.033) = 63.7% (at 4 bands)

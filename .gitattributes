@@ -48,3 +48,4 @@ example_fxs/fxsusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example-rch/rchusdt-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_gold/xauusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
 example_ftm/ftmusd-1m.json.gz filter=lfs diff=lfs merge=lfs -text
+example_ftm/ftmusd-short-1m.json.gz filter=lfs diff=lfs merge=lfs -text
